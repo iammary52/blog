@@ -14,17 +14,7 @@ export default async function PostPage({ params }: PageProps) {
 
   const { data: post } = await supabase
     .from('posts')
-    .select(`
-      id,
-      title,
-      content,
-      image_url,
-      created_at,
-      user_id,
-      profiles (
-        username
-      )
-    `)
+    .select('id, title, content, image_url, created_at, user_id')
     .eq('id', id)
     .single()
 
@@ -55,8 +45,6 @@ export default async function PostPage({ params }: PageProps) {
               {post.title}
             </h1>
             <div className="flex items-center gap-2 text-sm text-gray-400">
-              <span>{(Array.isArray(post.profiles) ? post.profiles[0]?.username : (post.profiles as { username: string | null } | null)?.username)?.split('@')[0] ?? '익명'}</span>
-              <span>·</span>
               <span>{date}</span>
             </div>
           </div>
