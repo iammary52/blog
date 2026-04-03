@@ -7,18 +7,9 @@ export const revalidate = 0
 export default async function Home() {
   const supabase = await createClient()
 
-  const { data: posts } = await supabase
+  const { data: posts, error } = await supabase
     .from('posts')
-    .select(`
-      id,
-      title,
-      content,
-      image_url,
-      created_at,
-      profiles (
-        username
-      )
-    `)
+    .select('id, title, content, image_url, created_at, user_id')
     .order('created_at', { ascending: false })
 
   return (
@@ -29,6 +20,12 @@ export default async function Home() {
           <h1 className="text-2xl font-bold text-gray-900">최근 글</h1>
           <p className="text-sm text-gray-400 mt-1">모든 사람의 이야기를 읽어보세요</p>
         </div>
+
+        {error && (
+          <div className="text-center py-4 text-red-400 text-sm">
+            오류: {error.message}
+          </div>
+        )}
 
         {!posts || posts.length === 0 ? (
           <div className="text-center py-20 text-gray-400">

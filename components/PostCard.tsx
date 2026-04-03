@@ -7,9 +7,7 @@ interface Post {
   content: string
   image_url: string | null
   created_at: string
-  profiles?: {
-    username: string | null
-  } | { username: string | null }[] | null
+  profiles?: { username: string | null } | { username: string | null }[] | null
 }
 
 export default function PostCard({ post }: { post: Post }) {
@@ -19,6 +17,10 @@ export default function PostCard({ post }: { post: Post }) {
     month: 'long',
     day: 'numeric',
   })
+
+  const username = Array.isArray(post.profiles)
+    ? post.profiles[0]?.username
+    : post.profiles?.username
 
   return (
     <Link href={`/posts/${post.id}`}>
@@ -41,7 +43,7 @@ export default function PostCard({ post }: { post: Post }) {
             {excerpt}
           </p>
           <div className="flex items-center justify-between text-xs text-gray-400">
-            <span>{(Array.isArray(post.profiles) ? post.profiles[0]?.username : post.profiles?.username)?.split('@')[0] ?? '익명'}</span>
+            <span>{username?.split('@')[0] ?? '익명'}</span>
             <span>{date}</span>
           </div>
         </div>
