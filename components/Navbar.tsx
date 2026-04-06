@@ -35,6 +35,12 @@ export default function Navbar() {
           {user ? (
             <>
               <Link
+                href="/investments"
+                className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+              >
+                투자거래
+              </Link>
+              <Link
                 href="/posts/new"
                 className="text-sm bg-gray-900 text-white px-4 py-1.5 rounded-full hover:bg-gray-700 transition-colors"
               >
